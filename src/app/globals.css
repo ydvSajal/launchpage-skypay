@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f0f0f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+a {
+  color: inherit;
+}
+a:hover {
+  color: #4f46e5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@keyframes om-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes om-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+@keyframes om-drift {
+  0%,
+  100% {
+    transform: translate(-50%, 0) scale(1);
+  }
+  50% {
+    transform: translate(-50%, 18px) scale(1.06);
+  }
+}
+@keyframes om-bloom {
+  from {
+    opacity: 0.3;
+    filter: blur(24px);
+    transform: translateX(-50%) scaleY(0.45);
+  }
+  to {
+    opacity: 1;
+    filter: blur(60px);
+    transform: translateX(-50%) scaleY(1);
+  }
+}
+
+.hero-halo {
+  background: radial-gradient(
+    ellipse at 50% 46%,
+    rgba(129, 140, 248, 0.85) 0%,
+    rgba(147, 163, 255, 0.6) 34%,
+    rgba(191, 205, 255, 0.34) 56%,
+    rgba(255, 255, 255, 0) 76%
+  );
+}
+
+.hero-orb {
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(255, 94, 0, 0.98) 0%,
+    rgba(255, 113, 10, 0.92) 26%,
+    rgba(255, 150, 60, 0.6) 46%,
+    rgba(255, 190, 130, 0.24) 64%,
+    rgba(255, 255, 255, 0) 80%
+  );
+  animation: om-drift 11s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb {
+    animation: none;
+  }
+}
+
+.stats-card-bg {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 247, 240, 0.94) 52%,
+    rgba(240, 243, 255, 0.94) 100%
+  );
+}
+
+.panel-window-bg {
+  background: linear-gradient(165deg, rgba(255, 247, 240, 0.7) 0%, rgba(240, 243, 255, 0.8) 100%);
+}
+
+.panel-note-bg {
+  background: linear-gradient(135deg, rgba(255, 94, 0, 0.09) 0%, rgba(99, 102, 241, 0.08) 100%);
+}
+
+.how-glow {
+  background: radial-gradient(ellipse, rgba(255, 94, 0, 0.42) 0%, rgba(196, 181, 253, 0.26) 45%, transparent 72%);
+}
+
+.waitlist-glow {
+  background: radial-gradient(ellipse, rgba(255, 94, 0, 0.45) 0%, rgba(196, 181, 253, 0.3) 45%, transparent 72%);
+}
+
+.footer-bloom-bg {
+  background: radial-gradient(
+    ellipse at 50% 80%,
+    rgba(255, 94, 0, 0.62) 0%,
+    rgba(196, 181, 253, 0.4) 35%,
+    rgba(147, 197, 253, 0.18) 60%,
+    transparent 76%
+  );
+}
+
+.marquee-track {
+  animation: om-marquee 26s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
