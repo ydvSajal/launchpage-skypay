@@ -22,11 +22,13 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-a {
-  color: inherit;
-}
-a:hover {
-  color: #4f46e5;
+@layer base {
+  a {
+    color: inherit;
+  }
+  a:hover {
+    color: #4f46e5;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
