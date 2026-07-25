@@ -1,5 +1,3 @@
-import { FooterBloom } from "./footer-bloom";
-
 const COLUMNS = [
   { heading: "Product", links: [["Checkout", "#product"], ["Payment links", "#product"], ["Subscriptions", "#product"], ["Disputes", "#product"]] },
   { heading: "Developers", links: [["Docs", "#docs"], ["API reference", "#docs"], ["Webhooks", "#docs"], ["Status", "#docs"]] },
@@ -9,7 +7,6 @@ const COLUMNS = [
 export function Footer() {
   return (
     <div className="relative overflow-hidden bg-[#fffaf6] px-5 pb-8 pt-17 sm:px-10">
-      <FooterBloom />
       <div className="relative z-10 mx-auto max-w-[1200px]">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>

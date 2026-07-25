@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Reveal } from "./reveal";
 import { WordCycle } from "./word-cycle";
 import { WaitlistForm } from "./waitlist-form";
@@ -8,24 +8,39 @@ import { WaitlistForm } from "./waitlist-form";
 const CHAINS = ["Base", "Ethereum", "Solana", "Arbitrum", "Optimism", "Polygon", "BNB Chain", "Sui", "USDC", "USDT"];
 const MARQUEE_ITEMS = [...CHAINS, ...CHAINS];
 
+// Cursor parallax is deliberately gentle: the orb drifts a little with the
+// pointer instead of tracking it. Only `transform` is animated so the browser
+// keeps it on the compositor.
+const GLOW_TRAVEL_X = 0.08;
+const GLOW_TRAVEL_Y = 0.05;
+
 export function Hero() {
   const hostRef = useRef<HTMLDivElement>(null);
   const blobRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef(0);
+  const pointerRef = useRef({ x: 0, y: 0 });
 
   function onGlowMove(e: React.MouseEvent<HTMLDivElement>) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const host = hostRef.current;
-    const blob = blobRef.current;
-    if (!host || !blob) return;
-    const r = host.getBoundingClientRect();
-    const x = e.clientX - r.left - r.width / 2;
-    const y = e.clientY - r.top - r.height * 0.35;
-    const dx = x / (r.width / 2);
-    blob.style.marginLeft = `${(x * 0.36).toFixed(1)}px`;
-    blob.style.marginTop = `${(y * 0.26).toFixed(1)}px`;
-    blob.style.filter = `blur(${(52 - Math.abs(dx) * 10).toFixed(0)}px)`;
-    blob.style.width = `${(1180 + Math.abs(dx) * 120).toFixed(0)}px`;
+    pointerRef.current = { x: e.clientX, y: e.clientY };
+    if (frameRef.current) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = 0;
+      const host = hostRef.current;
+      const blob = blobRef.current;
+      if (!host || !blob) return;
+      const r = host.getBoundingClientRect();
+      const x = (pointerRef.current.x - r.left - r.width / 2) * GLOW_TRAVEL_X;
+      const y = (pointerRef.current.y - r.top - r.height / 2) * GLOW_TRAVEL_Y;
+      blob.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+    });
   }
+
+  useEffect(() => {
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
+  }, []);
 
   return (
     <div className="relative overflow-hidden bg-white">
@@ -34,8 +49,10 @@ export function Hero() {
       <div ref={hostRef} onMouseMove={onGlowMove} className="relative">
         <div
           ref={blobRef}
-          className="hero-orb pointer-events-none absolute left-1/2 -top-[300px] h-[820px] w-[1180px] -translate-x-1/2 rounded-full blur-[52px] transition-[margin,filter,width] duration-200 ease-[cubic-bezier(.16,1,.3,1)]"
-        />
+          className="pointer-events-none absolute -top-[300px] left-1/2 -ml-[590px] h-[820px] w-[1180px] transition-transform duration-500 ease-out"
+        >
+          <div className="hero-orb h-full w-full rounded-full blur-[52px]" />
+        </div>
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[46%] bg-gradient-to-b from-white/0 via-white/72 to-white [background-position:0_46%]" />
 
         <div className="relative z-10 px-5 pt-[22px] sm:px-10">

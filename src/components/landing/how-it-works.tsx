@@ -45,7 +45,6 @@ const STEPS = [
 export function HowItWorks() {
   return (
     <div id="how" className="relative overflow-hidden bg-gradient-to-b from-[#fffaf5] to-white px-5 py-22 sm:px-10">
-      <div className="how-glow pointer-events-none absolute left-1/2 -top-[220px] h-[460px] w-[1000px] -translate-x-1/2 rounded-full blur-[80px]" />
       <div className="relative z-10 mx-auto max-w-[1200px]">
         <Reveal className="mb-11 text-center">
           <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#4f46e5]">How it works</div>
